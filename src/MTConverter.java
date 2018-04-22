@@ -1,9 +1,13 @@
+import java.io.FileNotFoundException;
 
 public class MTConverter {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         
-        Parser.parsePlainDeclaration(null, null, "tcb");
+        
+        new Controller().launch();
+        
+       
     }
 
 }

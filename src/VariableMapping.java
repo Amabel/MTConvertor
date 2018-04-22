@@ -3,12 +3,13 @@ import java.util.Map;
 public class VariableMapping {
 
     private String scope;
+    private String varType;
     private String key;
     private String varName;
     private String initValue;
     private Map<String, String> valueMap; // valueName, value
     
-    public VariableMapping(String scope, String key, String varName, String initValue, Map<String, String> valueMap) {
+    public VariableMapping(String scope, String varType, String key, String varName, String initValue, Map<String, String> valueMap) {
         super();
         this.scope = scope;
         this.key = key;
@@ -39,6 +40,12 @@ public class VariableMapping {
      */
     public String getInitValue() {
         return initValue;
+    }
+    /**
+     * @return the varType
+     */
+    public String getVarType() {
+        return varType;
     }
     /**
      * @return the valueName
