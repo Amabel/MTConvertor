@@ -17,39 +17,27 @@ public class VariableMapping {
         this.initValue = initValue;
         this.valueMap = valueMap;
     }
-    /**
-     * @return the scope
-     */
+
     public String getScope() {
         return scope;
     }
-    /**
-     * @return the key
-     */
+
     public String getKey() {
         return key;
     }
-    /**
-     * @return the varName
-     */
+
     public String getVarName() {
         return varName;
     }
-    /**
-     * @return the initValue
-     */
+
     public String getInitValue() {
         return initValue;
     }
-    /**
-     * @return the varType
-     */
+
     public String getVarType() {
         return varType;
     }
-    /**
-     * @return the valueName
-     */
+
     public Map<String, String> getValueMap() {
         return valueMap;
     }

@@ -1,0 +1,4 @@
+resourceID,獲得したリソースのID
+prev_pri,獲得前の優先度
+eve_id,ID
+eve_mask,イベントマスク

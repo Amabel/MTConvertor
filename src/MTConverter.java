@@ -1,13 +1,8 @@
-import java.io.FileNotFoundException;
 
 public class MTConverter {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        
+    public static void main(String[] args) {
         
         new Controller().launch();
-        
-       
     }
-
 }
