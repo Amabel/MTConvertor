@@ -1,0 +1,15 @@
+/.settings/
+/target/ 
+
+# Eclipse project files
+.classpath
+.project
+.DS_Store
+
+# Java class files
+*.class
+*.jar
+
+# generated files
+bin/
+gen/
