@@ -16,10 +16,12 @@ public class Parser {
     
     Map<String, VariableMapping> varMap;
     Map<String, String> defMap;
+    Map<String, String> gVarMap;
     
     public Parser() {
         this.varMap = new HashMap<>();
         this.defMap = new HashMap<>();
+        this.gVarMap = new HashMap<>();
     }
     
     public void parse(String fileName) throws FileNotFoundException {
@@ -47,9 +49,16 @@ public class Parser {
                 scope = null;
             } else if (line.contains("#define")) {
                 // parse definition
+                parseDefinition(line);
             }
         }
- 
+        
+    }
+    
+    public void printMap(Map<String, String> map) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
  
     public void printMT() {
@@ -58,9 +67,11 @@ public class Parser {
             String varKey = entry.getKey();
             VariableMapping vm = entry.getValue();
             String scope = vm.getScope();
-//            if (!scope.equals(null) || !scope.equals("")) {
-//                line += scope + ".";
-//            }
+            if (scope != null && !scope.equals("")) {
+                if (gVarMap.get(scope) != null && !gVarMap.get(scope).equals("")) {                    
+                    line += gVarMap.get(scope) + ".";
+                }
+            }
             String initValue = vm.getInitValue();
             String varName = vm.getVarName();
             line += varName + "\t" + varKey;
@@ -86,9 +97,11 @@ public class Parser {
             String varKey = entry.getKey();
             VariableMapping vm = entry.getValue();
             String scope = vm.getScope();
-//            if (!scope.equals(null) || !scope.equals("")) {
-//                line += scope + ".";
-//            }
+            if (scope != null && !scope.equals("")) {
+                if (gVarMap.get(scope) != null && !gVarMap.get(scope).equals("")) {                    
+                    line += gVarMap.get(scope) + ".";
+                }
+            }
             String initValue = vm.getInitValue();
             String varName = vm.getVarName();
             line += varName + "," + varKey + "\n";
@@ -102,7 +115,12 @@ public class Parser {
     }
     
     private void parseDefinition(String string) {
-        
+        String[] strings = string.trim().split(" ");
+        if (strings[0].equals("#define")) {
+            strings[2] = strings[2].replaceAll("\\(", "");
+            strings[2] = strings[2].replaceAll("\\)", "");
+            defMap.put(strings[1], strings[2]);
+        }
     }
     
     private void parsePlainDeclaration(String string, Map<String, VariableMapping> map, String scope) {
@@ -116,37 +134,41 @@ public class Parser {
         String varName = null;
         Map<String, String> valueMap = null;
         
-        if (stringList.contains("=")) {
-            int indexEqual = stringList.indexOf("=");
-            if (indexEqual != 2) {
-                return;
-            }
-            
-            varType = stringList.get(indexEqual - 2);
-            varName = stringList.get(indexEqual - 1);
-            initValue = stringList.get(indexEqual + 1);
-            if (initValue.charAt(initValue.length() - 1) == ';') {
-                initValue = initValue.substring(0, initValue.length() - 1);
-            }
-            
-        } else {
-            varType = stringList.get(0);
-            varName = stringList.get(1);
-            if (varName.charAt(varName.length() - 1) == ';') {
-                varName = varName.substring(0, varName.length() - 1);
-            }
-        }
-        
         if (stringList.contains("/*")) {
             int indexComment = stringList.indexOf("/*");
             varKey = stringList.get(indexComment + 1);
+        
+            if (stringList.contains("=")) {
+                int indexEqual = stringList.indexOf("=");
+                if (indexEqual != 2) {
+                    return;
+                }
+                
+                varType = stringList.get(indexEqual - 2);
+                varName = stringList.get(indexEqual - 1);
+                initValue = stringList.get(indexEqual + 1);
+                if (initValue.charAt(initValue.length() - 1) == ';') {
+                    initValue = initValue.substring(0, initValue.length() - 1);
+                }
+                
+            } else {
+                varType = stringList.get(0);
+                varName = stringList.get(1);
+                if (varName.charAt(varName.length() - 1) == ';') {
+                    varName = varName.substring(0, varName.length() - 1);
+                }
+            }
+            VariableMapping vMap = new VariableMapping(scope, varType, varKey, varName, initValue, valueMap);
+            
+            map.put(varKey, vMap);   
+        } else if (strings.length == 2) {
+            varName = strings[1];
+            if (varName.contains("[")) {
+                varName = varName.substring(0, varName.indexOf('['));
+                varName += "[0]";
+            }
+            this.gVarMap.put(strings[0], varName);
         }
-        
-        VariableMapping vMap = new VariableMapping(scope, varType, varKey, varName, initValue, valueMap);
-        
-        map.put(varKey, vMap);     
     }
-    
-    
     
 }

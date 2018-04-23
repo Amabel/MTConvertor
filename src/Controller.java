@@ -8,9 +8,11 @@ public class Controller {
         
         parser = new Parser();
         
-        String fileName = "example/def.h";
+        String[] fileName = {"example/variables.h", "example/def.h"};
         try {
-            this.parser.parse(fileName);
+            this.parser.parse(fileName[0]);
+            this.parser.parse(fileName[1]);
+//            parser.printDefMap();
             parser.printMT();
             parser.generateMTFile();
         } catch (FileNotFoundException e) {

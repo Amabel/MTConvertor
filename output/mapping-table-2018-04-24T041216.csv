@@ -1,0 +1,5 @@
+decTask,Declareされているタスク数
+runningTask,現在
+decEvent,Declareされているイベント数
+decRes,Declareされているリソース数
+OS_status,現在のOSの状態
