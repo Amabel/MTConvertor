@@ -40,10 +40,11 @@ mtype = {RUNNING, READY, SUSPENDED, WAITING};
 
 /* リソース */
 typedef RCBType{
-  ResID res_id = NoResID;       /* ID */
+  ResID res_id = NoResID;       /* リソースID */
   PRIORITY res_ceilpri = 0;     /* 優先度 */
   bool res_locked = false;      /* 獲得済みかどうか */
 }
+
 typedef ResStack{
   ResID resourceID;             /* 獲得したリソースのID */
   PRIORITY prev_pri;            /* 獲得前の優先度 */
@@ -51,13 +52,13 @@ typedef ResStack{
 
 /* イベント */
 typedef ECBType{
-  EventID eve_id = NoEventID; /* ID */
+  EventID eve_id = NoEventID; /* イベントID */
   Mask eve_mask = 0;          /* イベントマスク */
 }
 
 /* タスク */
 typedef TCBType{
-  TaskID t_id = NoTaskID;       /* ID */
+  TaskID t_id = NoTaskID;       /* タスクID */
   byte concept = BASIC;         /* タスクの種類 */
   PRIORITY t_init_pri = 0;      /* 初期優先度 */
   PRIORITY t_cur_pri = 0;       /* 現在優先度 0(low)~MAXPRI-1(high) */
